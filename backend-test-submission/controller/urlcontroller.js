@@ -28,7 +28,7 @@ const shorturl = async (req, res) => {
         });
 
         return res.status(201).json({
-            shortlink: `http://localhost:3000/${shortid}`,
+            shortlink: `http://localhost:3000/url/${shortid}`,
             expiry: expiryd.toISOString()
         });
 
@@ -38,5 +38,17 @@ const shorturl = async (req, res) => {
         });
     }
 };
+const redirectUrl = async (req, res) => {
+    const { shortcode } = req.params;
 
-module.exports = { shorturl };
+    if (!urlstore.has(shortcode)) {
+        return res.status(404).json({
+            error: "Short URL not found"
+        });
+    }
+
+    const data = urlstore.get(shortcode);
+
+    res.redirect(data.url);
+}
+module.exports = { shorturl,redirectUrl };
