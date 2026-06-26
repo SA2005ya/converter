@@ -1,10 +1,20 @@
 const express = require("express")
 const app = express()
 const logRoutes = require("./router/logRouter")
+
 app.use(express.json())
 app.use("/api/log", logRoutes)
-app.listen(4000, ()=>{
 
-    console.log("server running on 4000")
+const port = process.env.PORT || 4000
 
+app.listen(port, () => {
+  console.log(`server running on ${port}`)
+}).on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Port ${port} is already in use. Stop the existing server or choose another port.`)
+    process.exit(1)
+  } else {
+    console.error(err)
+    process.exit(1)
+  }
 })

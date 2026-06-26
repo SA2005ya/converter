@@ -36,8 +36,8 @@ function UrlShortener() {
 
     try {
       await Log("Frontend", "info", "components", "Fetch the data");
-    } catch {
-      // Ignore logging failures so the UI still works.
+    } catch (error) {
+      console.log("Logging failed:", error);
     }
   }
 
