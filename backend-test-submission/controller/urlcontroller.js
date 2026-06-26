@@ -1,9 +1,14 @@
 const urlstore = new Map();
-
+const Log=require('../../logging-middleware/middleware/logger')
 const shorturl = async (req, res) => {
     try {
         const { url, validity, shortcode } = req.body;
-
+        await Log(
+            "backend",
+            "info",
+            "controller",
+            "url shortner called"
+        )
         if (!url) {
             return res.status(400).json({
                 error: "URL required"
@@ -31,7 +36,12 @@ const shorturl = async (req, res) => {
             shortlink: `http://localhost:3000/url/${shortid}`,
             expiry: expiryd.toISOString()
         });
-
+        await Log(
+            "backend",
+            "info",
+            "controller",
+            "url shortented" 
+        )
     } catch (err) {
         return res.status(500).json({
             error: "Error occurred while creating URL"
